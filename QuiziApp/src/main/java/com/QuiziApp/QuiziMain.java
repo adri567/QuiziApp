@@ -15,7 +15,7 @@ public class QuiziMain extends Application {
 		
 		BorderPane root  = new BorderPane();
 		
-		Scene scene = new Scene(root, 800, 800);
+		Scene scene = new Scene(root, 400, 400);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
