@@ -51,7 +51,9 @@ public class QuiziMain extends Application {
 				try {
 					showWordText.setText(text.getText(wordFile));
 					//search.filter(text.getText(wordFile));
+					
 					ArrayList<QAModel>  questions = search.filterQuestionsFromPackage(text.getText(wordFile));
+					
 					saveQuestion(questions);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -75,7 +77,7 @@ public class QuiziMain extends Application {
 	}
 	
 	public void saveQuestion(ArrayList<QAModel> pack) throws IOException {
-		File file = new File("dgwvwwv.json");
+		File file = new File("test2.json");
 		
 		// Neuen Ordner erstellen
 //		File dir = new File("Folder");
