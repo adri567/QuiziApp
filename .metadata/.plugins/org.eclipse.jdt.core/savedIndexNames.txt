@@ -1,0 +1,3 @@
+INDEX VERSION 1.131+C:\Users\Desktop-Jannik\Desktop\QuiziApp\.metadata\.plugins\org.eclipse.jdt.core
+1574843208.index
+2170968912.index
