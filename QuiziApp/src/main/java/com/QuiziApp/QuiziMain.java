@@ -1,26 +1,10 @@
 package com.QuiziApp;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.QuiziApp.HelperClasses.ConvertWordDocToText;
-import com.QuiziApp.HelperClasses.WordsearchAlgorithm;
-import com.QuiziApp.Models.QAModel;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class QuiziMain extends Application { 
@@ -34,7 +18,7 @@ public class QuiziMain extends Application {
 		
 		Parent root = FXMLLoader.load(getClass().getResource("homeFXML.fxml"));
 		
-		// hier übergeben wir die primaryStage an der Variable primaryStage aus der Instanz controller
+		// hier ï¿½bergeben wir die primaryStage an der Variable primaryStage aus der Instanz controller
 		controller.primaryStage = primaryStage;
 		
 		Scene scene = new Scene(root, 800, 500);
