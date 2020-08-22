@@ -10,6 +10,9 @@ import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -43,8 +46,27 @@ public class PopupController {
     ObservableList<String> test = FXCollections.observableArrayList("Neue Gruppe", "Biologie", "Chemie", "BSDVS");
     
     @FXML
-    void chooseSectionTapped(MouseEvent event) {
+    void chooseSectionTapped(ActionEvent event) {
+    	
+    	String value = chooseSection.getSelectionModel().getSelectedItem();
+    	
+    
 
+    	if(value == null) {
+    		
+    		chooseNewSection.setDisable(false);
+    		
+    	} else if (value.equals("Neue Gruppe")) {
+    		
+    		chooseNewSection.setDisable(false);
+    		
+    	} else {
+    		
+    		chooseNewSection.setDisable(true);	
+    		chooseNewSection.setPromptText(value);
+    		
+    	}
+    	
     }
 
     @FXML
