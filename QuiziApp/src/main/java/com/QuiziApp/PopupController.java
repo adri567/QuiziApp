@@ -70,9 +70,13 @@ public class PopupController {
 	}
 	
 	public void saveQuestion(ArrayList<QAModel> pack) throws IOException {
+<<<<<<< HEAD:QuiziApp/src/main/java/com/QuiziApp/ControllerFXML.java
+		File file = new File("testjson.json");
+=======
 		String test = nameQuiz.getText();
 		
 		File file = new File(test + ".json");
+>>>>>>> 017e7f60d198c3178c9bbf598dc58901a0ec61f3:QuiziApp/src/main/java/com/QuiziApp/PopupController.java
 		
 		// Neuen Ordner erstellen
 //		File dir = new File("Folder");
@@ -81,8 +85,25 @@ public class PopupController {
 		var writer = new ObjectMapper();
 		writer.enable(SerializationFeature.INDENT_OUTPUT);
 		writer.writeValue(file, pack);
+<<<<<<< HEAD:QuiziApp/src/main/java/com/QuiziApp/ControllerFXML.java
+		System.out.print("Success");
+	}
+	
+	@FXML
+	private ListView<String> selectQuizView;
+	
+	//Observablelist wird erstellt und mit Werten gef�llt (TEST)
+	ObservableList<String> items = FXCollections.observableArrayList("Adrian", "Jannik", "Daniel", "Oliver", "Nils");
+	
+	//Diese Methode f�gt der listView die ObservableList "items" hinzu.
+	public void setupListView() {
+		selectQuizView.getItems().addAll(items);
+	}
+	
+=======
 		System.out.println("Success");
 		createQuizi.setDisable(false);
+>>>>>>> 017e7f60d198c3178c9bbf598dc58901a0ec61f3:QuiziApp/src/main/java/com/QuiziApp/PopupController.java
 	}
     
     @FXML
