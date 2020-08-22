@@ -10,11 +10,14 @@ import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -70,13 +73,11 @@ public class PopupController {
 	}
 	
 	public void saveQuestion(ArrayList<QAModel> pack) throws IOException {
-<<<<<<< HEAD:QuiziApp/src/main/java/com/QuiziApp/ControllerFXML.java
-		File file = new File("testjson.json");
-=======
+		
+		//File file = new File("testjson.json");
 		String test = nameQuiz.getText();
 		
 		File file = new File(test + ".json");
->>>>>>> 017e7f60d198c3178c9bbf598dc58901a0ec61f3:QuiziApp/src/main/java/com/QuiziApp/PopupController.java
 		
 		// Neuen Ordner erstellen
 //		File dir = new File("Folder");
@@ -85,8 +86,8 @@ public class PopupController {
 		var writer = new ObjectMapper();
 		writer.enable(SerializationFeature.INDENT_OUTPUT);
 		writer.writeValue(file, pack);
-<<<<<<< HEAD:QuiziApp/src/main/java/com/QuiziApp/ControllerFXML.java
-		System.out.print("Success");
+		System.out.println("Success");
+		createQuizi.setDisable(false);
 	}
 	
 	@FXML
@@ -99,12 +100,8 @@ public class PopupController {
 	public void setupListView() {
 		selectQuizView.getItems().addAll(items);
 	}
-	
-=======
-		System.out.println("Success");
-		createQuizi.setDisable(false);
->>>>>>> 017e7f60d198c3178c9bbf598dc58901a0ec61f3:QuiziApp/src/main/java/com/QuiziApp/PopupController.java
-	}
+
+
     
     @FXML
     private Button createQuizi;
@@ -118,9 +115,5 @@ public class PopupController {
 
     @FXML
     private Label errorLabel;
-
-   
-
     
-
 }
