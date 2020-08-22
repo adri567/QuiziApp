@@ -10,9 +10,6 @@ import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +19,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -48,17 +44,20 @@ public class PopupController {
     @FXML
     void chooseSectionTapped(ActionEvent event) {
     	
+    	// Hier drin steht der aktuell ausgewählte Wert von der ChoiceBox
     	String value = chooseSection.getSelectionModel().getSelectedItem();
     	
     
-
+    	// Hier wird überprüft, welcher Wert drin steht und es wird die passende abfrage ausgewählt und ausgeführt
     	if(value == null) {
-    		
+  
     		chooseNewSection.setDisable(false);
+    		chooseNewSection.setPromptText("Neue Gruppe wählen oder erstellen");
     		
     	} else if (value.equals("Neue Gruppe")) {
     		
     		chooseNewSection.setDisable(false);
+    		chooseNewSection.setPromptText("Neue Gruppe wählen oder erstellen");
     		
     	} else {
     		
