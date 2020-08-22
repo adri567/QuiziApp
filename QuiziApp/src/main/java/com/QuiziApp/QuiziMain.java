@@ -21,8 +21,9 @@ public class QuiziMain extends Application {
 		// hier übergeben wir die primaryStage an der Variable primaryStage aus der Instanz controller
 		controller.primaryStage = primaryStage;
 		
-		Scene scene = new Scene(root, 800, 500);
+		Scene scene = new Scene(root, 950, 600);
 		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 
