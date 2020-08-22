@@ -26,10 +26,22 @@ public class PopupController {
 	
 	// Properties
 	Stage primaryStage = new Stage();
+	
+	// Methods
+	
+	public void initialize() {
+		chooseSection.setValue("Neue Gruppe");
+		chooseSection.setItems(test);
+		
+	}
 
 
     @FXML
     private ChoiceBox<String> chooseSection;
+    
+    ObservableList<String> test = FXCollections.observableArrayList("Neue Gruppe", "Biologie", "Chemie", "BSDVS");
+    
+    
 
     @FXML
     private TextField chooseNewSection;
