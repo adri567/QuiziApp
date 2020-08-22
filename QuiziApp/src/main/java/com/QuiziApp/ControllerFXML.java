@@ -75,7 +75,7 @@ public class ControllerFXML {
 	}
 	
 	public void saveQuestion(ArrayList<QAModel> pack) throws IOException {
-		File file = new File("DerPenisIst5cmGroß.json");
+		File file = new File("testjson.json");
 		
 		// Neuen Ordner erstellen
 //		File dir = new File("Folder");
@@ -90,10 +90,10 @@ public class ControllerFXML {
 	@FXML
 	private ListView<String> selectQuizView;
 	
-	//Observablelist wird erstellt und mit Werten gefüllt (TEST)
+	//Observablelist wird erstellt und mit Werten gefï¿½llt (TEST)
 	ObservableList<String> items = FXCollections.observableArrayList("Adrian", "Jannik", "Daniel", "Oliver", "Nils");
 	
-	//Diese Methode fügt der listView die ObservableList "items" hinzu.
+	//Diese Methode fï¿½gt der listView die ObservableList "items" hinzu.
 	public void setupListView() {
 		selectQuizView.getItems().addAll(items);
 	}
