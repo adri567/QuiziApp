@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class QuiziMain extends Application { 
 
 	// Instanz der Klasse ControllerFXML
-	ControllerFXML controller = new ControllerFXML();
+	PopupController popupController = new PopupController();
 
 	@Override
 	public void start(final Stage primaryStage) throws Exception {
@@ -19,7 +19,7 @@ public class QuiziMain extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("homeFXML.fxml"));
 		
 		// hier übergeben wir die primaryStage an der Variable primaryStage aus der Instanz controller
-		controller.primaryStage = primaryStage;
+		popupController.primaryStage = primaryStage;
 		
 		Scene scene = new Scene(root, 950, 600);
 		primaryStage.setScene(scene);

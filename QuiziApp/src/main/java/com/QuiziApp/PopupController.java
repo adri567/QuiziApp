@@ -1,10 +1,8 @@
 package com.QuiziApp;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 import com.QuiziApp.HelperClasses.ConvertWordDocToText;
 import com.QuiziApp.HelperClasses.WordsearchAlgorithm;
@@ -12,37 +10,35 @@ import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class ControllerFXML {
-
+public class PopupController {
 	
 	// Properties
-	Label showWordText = new Label();
 	Stage primaryStage = new Stage();
-	
 
-	// Methods
 
-	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
-	public void initialize() {
-		System.out.print("init");
-		setupListView();
-	}
-	
     @FXML
-    private Button createButton;
+    private ChoiceBox<String> chooseSection;
+
+    @FXML
+    private TextField chooseNewSection;
     
     @FXML
-    void createButtonTapped(ActionEvent event) {
+    private TextField nameQuiz;
+
+    @FXML
+    private Button chooseDocument;
+
+    @FXML
+    void chooceDocumentTapped(ActionEvent event) {
 
     	System.out.println("test");
     	
@@ -56,7 +52,6 @@ public class ControllerFXML {
 
 		
 		try {
-			showWordText.setText(text.getText(wordFile));
 			//search.filter(text.getText(wordFile));
 			
 			ArrayList<QAModel>  questions = search.filterQuestionsFromPackage(text.getText(wordFile));
@@ -75,7 +70,13 @@ public class ControllerFXML {
 	}
 	
 	public void saveQuestion(ArrayList<QAModel> pack) throws IOException {
+<<<<<<< HEAD:QuiziApp/src/main/java/com/QuiziApp/ControllerFXML.java
 		File file = new File("testjson.json");
+=======
+		String test = nameQuiz.getText();
+		
+		File file = new File(test + ".json");
+>>>>>>> 017e7f60d198c3178c9bbf598dc58901a0ec61f3:QuiziApp/src/main/java/com/QuiziApp/PopupController.java
 		
 		// Neuen Ordner erstellen
 //		File dir = new File("Folder");
@@ -84,6 +85,7 @@ public class ControllerFXML {
 		var writer = new ObjectMapper();
 		writer.enable(SerializationFeature.INDENT_OUTPUT);
 		writer.writeValue(file, pack);
+<<<<<<< HEAD:QuiziApp/src/main/java/com/QuiziApp/ControllerFXML.java
 		System.out.print("Success");
 	}
 	
@@ -98,5 +100,27 @@ public class ControllerFXML {
 		selectQuizView.getItems().addAll(items);
 	}
 	
+=======
+		System.out.println("Success");
+		createQuizi.setDisable(false);
+>>>>>>> 017e7f60d198c3178c9bbf598dc58901a0ec61f3:QuiziApp/src/main/java/com/QuiziApp/PopupController.java
 	}
+    
+    @FXML
+    private Button createQuizi;
+    
+    @FXML
+    void createQuiziTapped(ActionEvent event) {
+    	
+    	Stage stage = (Stage) createQuizi.getScene().getWindow();
+    	stage.close();
+    }
 
+    @FXML
+    private Label errorLabel;
+
+   
+
+    
+
+}
