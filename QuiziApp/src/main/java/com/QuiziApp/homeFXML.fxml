@@ -27,12 +27,12 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonTapped" prefHeight="63.0" prefWidth="140.0" text="Create document">
+                        <Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonTapped" prefHeight="63.0" prefWidth="140.0" text="Upload Word Dokument">
                            <HBox.margin>
                               <Insets right="2.5" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="140.0" text="Button">
+                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="140.0" text="Download Word Vorlage">
                            <HBox.margin>
                               <Insets left="2.5" />
                            </HBox.margin>
