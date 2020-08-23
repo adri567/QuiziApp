@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import com.QuiziApp.HelperClasses.Utility;
 import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -29,7 +30,8 @@ public class HomeController {
 	
 	// Properties
 	Stage primaryStage = new Stage();
-
+	ArrayList<String> folders = new ArrayList<String>();
+	ObservableList<String> gruppen; 
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
@@ -37,11 +39,11 @@ public class HomeController {
 		System.out.print("init");
 		setupListView();
 		
+		//Instanz von dem object "ObjectMapper" erstellen.
 		var reader = new ObjectMapper();
 		
-//		Array<QAModel> model = reader.readValue(new File("Quizis/Chemie/asadasd.json"), List.class);
-//		System.out.print(model);				
-		ArrayList<QAModel> model = (ArrayList<QAModel>) reader.readValue(new File("Quizis/Chemie/asadasd.json"), new TypeReference<List<QAModel>>(){});
+		// Konvertiert die json datei in eine ArrayList.			
+		ArrayList<QAModel> model = reader.readValue(new File("Quizis/Chemie/asadasd.json"), new TypeReference<ArrayList<QAModel>>(){});
 		
 		for (QAModel qaModel : model) {
 			System.out.println(qaModel.getQuestion());
@@ -74,12 +76,15 @@ public class HomeController {
 	@FXML
 	private ListView<String> selectQuizView;
 	
-	//Observablelist wird erstellt und mit Werten gef�llt (TEST)
-	ObservableList<String> items = FXCollections.observableArrayList("Adrian", "Jannik", "Daniel", "Oliver", "Nils");
+	
 	
 	//Diese Methode f�gt der listView die ObservableList "items" hinzu.
 	public void setupListView() {
-		selectQuizView.getItems().addAll(items);
+		
+		folders = Utility.sharedInstance.findFoldersInDirectory("Quizis");
+		gruppen = FXCollections.observableArrayList(folders);
+		
+		selectQuizView.getItems().addAll(gruppen);
 	}
 	
 	}

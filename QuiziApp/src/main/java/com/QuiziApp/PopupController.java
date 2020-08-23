@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.QuiziApp.HelperClasses.ConvertWordDocToText;
+import com.QuiziApp.HelperClasses.Utility;
 import com.QuiziApp.HelperClasses.WordsearchAlgorithm;
 import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +31,7 @@ import javafx.stage.Stage;
 public class PopupController {
 	
 	// Properties
+	
 	Stage primaryStage = new Stage();
 	ArrayList<QAModel> questions = new ArrayList<QAModel>();
 	ArrayList<String> folders = new ArrayList<String>();
@@ -42,7 +44,7 @@ public class PopupController {
 	// Methods
 	
 	public void initialize() {
-		folders = findFoldersInDirectory("Quizis/");
+		folders = Utility.sharedInstance.findFoldersInDirectory("Quizis/");
 		gruppen = FXCollections.observableArrayList(folders);
 		gruppen.add(0, "Neue Gruppe");
 		chooseSection.setItems(gruppen);
@@ -145,6 +147,11 @@ public class PopupController {
 			dir.mkdir();
 			File file = new File(dir + "/" + fileName + ".json");
 			writer.writeValue(file, pack);
+		} else if (fileName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte einen Quiznamen eingeben.");
+			closeWindow = false;		
+			
 		} else {
 			File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
 			writer.writeValue(file, pack);
@@ -153,36 +160,7 @@ public class PopupController {
 	}
 	
 	
-	public ArrayList<String> findFoldersInDirectory(String directoryPath) {
-	    File directory = new File(directoryPath);
-		
-	    FileFilter directoryFileFilter = new FileFilter() {
-	        public boolean accept(File file) {
-	            return file.isDirectory();
-	        }
-	    };
-			
-	    File[] directoryListAsFile = directory.listFiles(directoryFileFilter);
-	    ArrayList<String> foldersInDirectory = new ArrayList<String>(directoryListAsFile.length);
-	    for (File directoryAsFile : directoryListAsFile) {
-	        foldersInDirectory.add(directoryAsFile.getName());
-	    }
-
-	    return foldersInDirectory;
-	}
 	
-	
-	@FXML
-	private ListView<String> selectQuizView;
-	
-	//Observablelist wird erstellt und mit Werten gef�llt (TEST)
-	ObservableList<String> items = FXCollections.observableArrayList("Adrian", "Jannik", "Daniel", "Oliver", "Nils");
-	
-	//Diese Methode f�gt der listView die ObservableList "items" hinzu.
-	public void setupListView() {
-		selectQuizView.getItems().addAll(items);
-	}
-
 
     
     @FXML
@@ -201,6 +179,8 @@ public class PopupController {
     	if (closeWindow) {
 	    	Stage stage = (Stage) createQuizi.getScene().getWindow();
 	    	stage.close();
+	    	
+	    	
     	}
     }
 
