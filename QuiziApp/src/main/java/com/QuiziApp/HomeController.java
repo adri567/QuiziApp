@@ -1,14 +1,23 @@
 package com.QuiziApp;
 
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
+import com.QuiziApp.Models.QAModel;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,12 +33,26 @@ public class HomeController {
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
-	public void initialize() {
+	public void initialize() throws JsonParseException, JsonMappingException, IOException {
 		System.out.print("init");
 		setupListView();
+		
+		var reader = new ObjectMapper();
+		
+//		Array<QAModel> model = reader.readValue(new File("Quizis/Chemie/asadasd.json"), List.class);
+//		System.out.print(model);				
+		ArrayList<QAModel> model = (ArrayList<QAModel>) reader.readValue(new File("Quizis/Chemie/asadasd.json"), new TypeReference<List<QAModel>>(){});
+		
+		for (QAModel qaModel : model) {
+			System.out.println(qaModel.getQuestion());
+			System.out.println(qaModel.getRightAnswers());
+			System.out.println(qaModel.getWrongAnswers());
+		}
+		
 	}
 	
-    @FXML
+
+	@FXML
     private Button createButton;
     
     @FXML
@@ -51,10 +74,10 @@ public class HomeController {
 	@FXML
 	private ListView<String> selectQuizView;
 	
-	//Observablelist wird erstellt und mit Werten gefüllt (TEST)
+	//Observablelist wird erstellt und mit Werten gefï¿½llt (TEST)
 	ObservableList<String> items = FXCollections.observableArrayList("Adrian", "Jannik", "Daniel", "Oliver", "Nils");
 	
-	//Diese Methode fügt der listView die ObservableList "items" hinzu.
+	//Diese Methode fï¿½gt der listView die ObservableList "items" hinzu.
 	public void setupListView() {
 		selectQuizView.getItems().addAll(items);
 	}

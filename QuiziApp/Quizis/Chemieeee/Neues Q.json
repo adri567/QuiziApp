@@ -1,9 +1,9 @@
 [ {
-  "question" : "Hallo, wie ist mein Name? ",
-  "rightAnswers" : [ "Adrian " ],
-  "wrongAnswers" : [ "Jannik ", "Daniel ", "Nils ", "Oliver ", "Simon " ]
+  "question" : "Whats my name? ",
+  "rightAnswers" : [ "Stev " ],
+  "wrongAnswers" : [ "David ", "Steve ", "Name " ]
 }, {
-  "question" : "Wann beginnt die Uni wieder? ",
-  "rightAnswers" : [ "29.09.2020 " ],
-  "wrongAnswers" : [ "01.11.2020 ", "garnicht ", "heute " ]
+  "question" : "Where do I live? ",
+  "rightAnswers" : [ "New York " ],
+  "wrongAnswers" : [ "Washington ", "London ", "Berlin " ]
 } ]
