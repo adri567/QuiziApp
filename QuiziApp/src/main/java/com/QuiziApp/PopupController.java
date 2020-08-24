@@ -133,22 +133,21 @@ public class PopupController {
 		fileName = nameQuiz.getText();
 		closeWindow = true;
 		
-		//Hier wird überprüft ob .json Datei einen Namen hat.
-		//Falls sie keinen hat wird eine Fehlermeldung im Popup Fenster erscheinen.
-		/*
-		 * 
-		 * Einzelne If Anweisung da es wenn sie in einer If-Else mit drin ist zu einem Funktionalen-Fehler kommt.
-		 * 
-		 * */
+		
+		if (folderName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte ein Gruppennamen wÃ¤hlen");
+			closeWindow = false;
+		}
 		
 		if (fileName.isEmpty()) {
 			errorLabel.setVisible(true);
 			errorLabel.setText("Bitte einen Quiznamen eingeben.");
 			closeWindow = false;
-			return;
 		}
+
 		
-		//Hier wird überprüft ob der eigegebene Ordner Name schon vorhanden ist.
+		//Hier wird ï¿½berprï¿½ft ob der eigegebene Ordner Name schon vorhanden ist.
 		//Falls dies der Fall ist wird eine Fehlermeldung im Popup Fenster erscheinen.
 		if (!folderName.isEmpty()) {
 			
@@ -157,20 +156,18 @@ public class PopupController {
 					errorLabel.setVisible(true);
 					errorLabel.setText("Gruppennamen bereits vorhanden");
 					closeWindow = false;
-					return;
 				}
 			}
+
 				File dir = new File("Quizis/" + folderName);
 				dir.mkdir();
 				File file = new File(dir + "/" + fileName + ".json");
 				writer.writeValue(file, pack);
-			} else {
+			} else if (!folderName.isEmpty() && !fileName.isEmpty()){
 				File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
 				writer.writeValue(file, pack);
 			}
 		
-		
-
 	}
 	
 	
