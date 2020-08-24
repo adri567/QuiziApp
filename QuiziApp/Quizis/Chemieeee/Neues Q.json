@@ -1,9 +1,0 @@
-[ {
-  "question" : "Whats my name? ",
-  "rightAnswers" : [ "Stev " ],
-  "wrongAnswers" : [ "David ", "Steve ", "Name " ]
-}, {
-  "question" : "Where do I live? ",
-  "rightAnswers" : [ "New York " ],
-  "wrongAnswers" : [ "Washington ", "London ", "Berlin " ]
-} ]

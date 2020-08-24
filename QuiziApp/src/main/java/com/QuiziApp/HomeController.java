@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 import com.QuiziApp.HelperClasses.Utility;
 import com.QuiziApp.Models.QAModel;
+import com.QuiziApp.Models.SectionModel;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -22,8 +23,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class HomeController {
 
@@ -38,6 +41,13 @@ public class HomeController {
 	public void initialize() throws JsonParseException, JsonMappingException, IOException {
 		System.out.print("init");
 		setupListView();
+		
+//		selectQuizView.setCellFactory(new Callback<ListView<SectionModel>, ListCell<SectionModel>>() {
+//			@Override
+//			public ListCell<SectionModel> call(ListView<SectionModel> sectionListView) {
+//				return new SectionListViewCellController();
+//			}
+//		});
 		
 		//Instanz von dem object "ObjectMapper" erstellen.
 		var reader = new ObjectMapper();
