@@ -170,9 +170,6 @@ public class PopupController {
 		
 	}
 	
-	
-	
-
     
     @FXML
     private Button createQuizi;
