@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.QuiziApp.ControllerFXML">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.QuiziApp.HomeController">
    <left>
    
       <VBox prefHeight="555.0" prefWidth="280.0" BorderPane.alignment="CENTER">
@@ -27,12 +27,12 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonTapped" prefHeight="63.0" prefWidth="140.0" text="Create document">
+                        <Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonTapped" prefHeight="63.0" prefWidth="140.0" text="Upload Word Dokument">
                            <HBox.margin>
                               <Insets right="2.5" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="140.0" text="Button">
+                        <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="140.0" text="Download Word Vorlage">
                            <HBox.margin>
                               <Insets left="2.5" />
                            </HBox.margin>

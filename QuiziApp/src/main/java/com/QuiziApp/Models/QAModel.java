@@ -53,9 +53,12 @@ public class QAModel {
 		wrongAnswers.add(answer);
 	}
 	
-//	public QAModel toModel() {
-//		var model = new QAModel();
-//		return model;
-//	}
+	public QAModel toModel(ArrayList<QAModel> qamodel) {
+		var model = new QAModel();
+		model.question = qamodel.get(0).getQuestion();
+		model.rightAnswers.addAll(qamodel.get(0).rightAnswers);
+		model.wrongAnswers.addAll(qamodel.get(0).wrongAnswers);
+		return model;
+	}
 
 }
