@@ -34,7 +34,7 @@ public class HomeController {
 	// Properties
 	Stage primaryStage = new Stage();
 	ArrayList<String> folders = new ArrayList<String>();
-	ObservableList<String> gruppen; 
+	ObservableList<SectionModel> gruppen; 
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
@@ -84,7 +84,7 @@ public class HomeController {
     }
 	
 	@FXML
-	private ListView<String> selectQuizView;
+	private ListView<SectionModel> selectQuizView;
 	
 	
 	
@@ -92,9 +92,19 @@ public class HomeController {
 	public void setupListView() {
 		
 		folders = Utility.sharedInstance.findFoldersInDirectory("Quizis");
-		gruppen = FXCollections.observableArrayList(folders);
 		
-		selectQuizView.getItems().addAll(gruppen);
+		ArrayList<SectionModel> sections = new ArrayList<SectionModel>();
+		
+		for (String folder : folders) {
+			sections.add(new SectionModel(folder));
+		}
+
+		gruppen = FXCollections.observableArrayList(sections);
+		
+		selectQuizView.setItems(gruppen);
+		
+		selectQuizView.setCellFactory(sectionCell -> new SectionListViewCellController());
+		
 	}
 	
 	}
