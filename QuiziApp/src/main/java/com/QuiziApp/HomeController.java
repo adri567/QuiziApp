@@ -51,16 +51,18 @@ public class HomeController {
 		var reader = new ObjectMapper();
 
 		// Konvertiert die json datei in eine ArrayList.
-		ArrayList<QAModel> model = reader.readValue(new File("Quizis/Chemie/asadasd.json"),
-				new TypeReference<ArrayList<QAModel>>() {
-				});
-
-		for (QAModel qaModel : model) {
-			System.out.println(qaModel.getQuestion());
-			System.out.println(qaModel.getRightAnswers());
-			System.out.println(qaModel.getWrongAnswers());
-		}
-
+//		if (!folders.isEmpty()) {
+//			ArrayList<QAModel> model = reader.readValue(new File("Quizis/Chemie/asadasd.json"),
+//					new TypeReference<ArrayList<QAModel>>() {
+//					});
+//
+//			for (QAModel qaModel : model) {
+//				System.out.println(qaModel.getQuestion());
+//				System.out.println(qaModel.getRightAnswers());
+//				System.out.println(qaModel.getWrongAnswers());
+//			}
+//
+//		}
 	}
 
 	@FXML

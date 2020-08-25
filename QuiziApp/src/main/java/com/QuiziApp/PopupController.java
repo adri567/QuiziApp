@@ -69,8 +69,9 @@ public class PopupController {
 			chooseNewSection.setDisable(false);
 			chooseNewSection.setPromptText("Neue Gruppe wählen oder erstellen");
 
-		} else {
+		}
 
+		if (valueGruppe != null && !valueGruppe.equals("Neue Gruppe")) {
 			chooseNewSection.setDisable(true);
 			chooseNewSection.setPromptText(valueGruppe);
 			chooseNewSection.setText("");
@@ -122,39 +123,95 @@ public class PopupController {
 		folderName = chooseNewSection.getText();
 		fileName = nameQuiz.getText();
 		closeWindow = true;
-
-		if (folderName.isEmpty()) {
-			errorLabel.setVisible(true);
-			errorLabel.setText("Bitte ein Gruppennamen wählen");
-			closeWindow = false;
-		}
-
-		if (fileName.isEmpty()) {
-			errorLabel.setVisible(true);
-			errorLabel.setText("Bitte einen Quiznamen eingeben.");
-			closeWindow = false;
-		}
-
-		// Hier wird �berpr�ft ob der eigegebene Ordner Name schon vorhanden ist.
-		// Falls dies der Fall ist wird eine Fehlermeldung im Popup Fenster erscheinen.
-		if (!folderName.isEmpty()) {
-
+		
+		
+		// Überprüft, ob der Ordnername doppelt vorhanden ist.
+		if (chooseNewSection.isDisable() == false) {
 			for (String folder : folders) {
 				if (folderName.equals(folder)) {
 					errorLabel.setVisible(true);
 					errorLabel.setText("Gruppennamen bereits vorhanden");
 					closeWindow = false;
+					return;
 				}
 			}
-
-			File dir = new File("Quizis/" + folderName);
-			dir.mkdir();
-			File file = new File(dir + "/" + fileName + ".json");
-			writer.writeValue(file, pack);
-		} else if (!folderName.isEmpty() && !fileName.isEmpty()) {
-			File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
-			writer.writeValue(file, pack);
+			
+//			File dir = new File("Quizis/" + folderName);
+//			dir.mkdir();
+//			File file = new File(dir + "/" + fileName + ".json");
+//			writer.writeValue(file, pack);
+		} 
+		
+		// Überprüft, ob ein Gruppenname eingegeben wurde
+		if (chooseNewSection.isDisable() == false && folderName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte ein Gruppennamen wählen");
+			closeWindow = false;
+			return;
 		}
+
+		// Überprüft, ob ein Quizname eingegeben wurde, wenn chooseNewSection disabled ist
+		if (chooseNewSection.isDisable() && fileName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte einen Quiznamen eingeben.");
+			closeWindow = false;
+			return;
+		}
+		
+		// Überprüft, ob ein Quizname eingegeben wurde, wenn chooseNewSection enabledist, der folderName und der fileName empty ist
+		if (chooseNewSection.isDisable() == false && !folderName.isEmpty() && fileName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte einen Quiznamen eingeben.");
+			closeWindow = false;
+			return;
+		}
+		
+		if (closeWindow) {
+			if (valueGruppe != null) {
+				File dir = new File("Quizis/" + folderName);
+				dir.mkdir();
+				File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
+				writer.writeValue(file, pack);
+			} else {
+				File dir = new File("Quizis/" + folderName);
+				dir.mkdir();
+				File file = new File(dir + "/" + fileName + ".json");
+				writer.writeValue(file, pack);
+			}
+		}
+
+//		if (folderName.isEmpty()) {
+//			errorLabel.setVisible(true);
+//			errorLabel.setText("Bitte ein Gruppennamen wählen");
+//			closeWindow = false;
+//		}
+//
+//		if (fileName.isEmpty()) {
+//			errorLabel.setVisible(true);
+//			errorLabel.setText("Bitte einen Quiznamen eingeben.");
+//			closeWindow = false;
+//		}
+//
+//		// Hier wird �berpr�ft ob der eigegebene Ordner Name schon vorhanden ist.
+//		// Falls dies der Fall ist wird eine Fehlermeldung im Popup Fenster erscheinen.
+//		if (!folderName.isEmpty()) {
+//
+//			for (String folder : folders) {
+//				if (folderName.equals(folder)) {
+//					errorLabel.setVisible(true);
+//					errorLabel.setText("Gruppennamen bereits vorhanden");
+//					closeWindow = false;
+//				}
+//			}
+//
+//			File dir = new File("Quizis/" + folderName);
+//			dir.mkdir();
+//			File file = new File(dir + "/" + fileName + ".json");
+//			writer.writeValue(file, pack);
+//		} else if (!fileName.isEmpty()) {
+//			File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
+//			writer.writeValue(file, pack);
+//		}
 
 	}
 
