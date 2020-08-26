@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import org.apache.poi.hwpf.sprm.SectionSprmCompressor;
+import org.junit.validator.PublicClassValidator;
+
 import com.QuiziApp.HelperClasses.Utility;
 import com.QuiziApp.Models.QAModel;
 import com.QuiziApp.Models.SectionModel;
@@ -48,7 +51,7 @@ public class HomeController {
 //		});
 
 		// Instanz von dem object "ObjectMapper" erstellen.
-		var reader = new ObjectMapper();
+		//var reader = new ObjectMapper();
 
 		// Konvertiert die json datei in eine ArrayList.
 //		if (!folders.isEmpty()) {
@@ -104,6 +107,23 @@ public class HomeController {
 
 		selectQuizView.setCellFactory(sectionCell -> new SectionListViewCellController());
 
+		//sections.clear();
 	}
+	
+	
+	
+	@FXML
+    private Button refreshButton;
+	
+	@FXML
+	  void refreshButtonTapped(ActionEvent event) throws JsonParseException, JsonMappingException, IOException {
+
+		System.out.print("test");
+		
+		setupListView();
+		//selectQuizView.refresh();
+		//initialize();
+		
+	  }
 
 }
