@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.bind.v2.runtime.unmarshaller.Loader;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -107,22 +108,30 @@ public class HomeController {
 
 		selectQuizView.setCellFactory(sectionCell -> new SectionListViewCellController());
 
-		//sections.clear();
+		sections.clear();
+		//selectQuizView.getItems().clear();
 	}
 	
 	
+	@FXML
+	FXMLLoader Loader = new FXMLLoader();
 	
 	@FXML
     private Button refreshButton;
 	
+	// Diese Methode sorgt dafür das die PrimaryStage neu geladen wird damit ListView refreshed wird.
 	@FXML
-	  void refreshButtonTapped(ActionEvent event) throws JsonParseException, JsonMappingException, IOException {
+	  void refreshButtonTapped(ActionEvent event) throws IOException {
 
-		System.out.print("test");
+		Stage stage = (Stage) refreshButton.getScene().getWindow();
+		stage.close();
 		
-		setupListView();
-		//selectQuizView.refresh();
-		//initialize();
+		Parent refreshedWindow = FXMLLoader.load(getClass().getResource("homeFXML.fxml"));
+		
+		Scene scene = new Scene(refreshedWindow, 950, 600);
+		primaryStage.setScene(scene);
+		primaryStage.setResizable(false);
+		primaryStage.show();
 		
 	  }
 
