@@ -49,12 +49,13 @@ public class SectionListViewCellController extends ListCell<SectionModel> {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				sectionName.setText(section.getSectionName());
+				setText(null);
+				// Setzt die Hbox in den Vordergrund
+				setGraphic(Hbox);
 			}
 
-			sectionName.setText(section.getSectionName());
-			setText(null);
-			// Setzt die Hbox in den Vordergrund
-			setGraphic(Hbox);
+			
 
 		}
 

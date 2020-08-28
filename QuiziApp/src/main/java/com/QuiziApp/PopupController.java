@@ -3,6 +3,7 @@ package com.QuiziApp;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -37,6 +40,7 @@ public class PopupController {
 	String fileName = new String();
 	String valueGruppe = new String();
 	boolean closeWindow = true;
+	HomeController homeController = new HomeController();
 
 	// Methods
 
@@ -219,7 +223,7 @@ public class PopupController {
 	private Button createQuizi;
 
 	@FXML
-	void createQuiziTapped(ActionEvent event) {
+	void createQuiziTapped(ActionEvent event) throws InvocationTargetException, IOException, InterruptedException {
 
 		try {
 			saveQuestion(questions);
@@ -231,6 +235,13 @@ public class PopupController {
 			Stage stage = (Stage) createQuizi.getScene().getWindow();
 			stage.close();
 
+//			Thread.sleep(1000);
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource("homeFXML.fxml"));
+//			HomeController controller = loader.getController();
+//			controller.refresh();
+			
+			
+			
 		}
 	}
 

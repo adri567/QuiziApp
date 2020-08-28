@@ -36,7 +36,7 @@ public class HomeController {
 	// Properties
 	Stage primaryStage = new Stage();
 	ArrayList<String> folders = new ArrayList<String>();
-	ObservableList<SectionModel> gruppen;
+	ObservableList<String> gruppen;
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
@@ -89,27 +89,32 @@ public class HomeController {
 	}
 
 	@FXML
-	private ListView<SectionModel> selectQuizView;
+	private ListView<String> selectQuizView;
 
 	// Diese Methode fï¿½gt der listView die ObservableList "items" hinzu.
 	public void setupListView() {
+		
 
 		folders = Utility.sharedInstance.findFoldersInDirectory("Quizis");
 
-		ArrayList<SectionModel> sections = new ArrayList<SectionModel>();
+		//ArrayList<SectionModel> sections = new ArrayList<SectionModel>();
 
-		for (String folder : folders) {
-			sections.add(new SectionModel(folder));
-		}
+//		for (String folder : folders) {
+//			sections.add(new SectionModel(folder));
+//		}
 
-		gruppen = FXCollections.observableArrayList(sections);
+		gruppen = FXCollections.observableArrayList(folders);
 
 		selectQuizView.setItems(gruppen);
 
-		selectQuizView.setCellFactory(sectionCell -> new SectionListViewCellController());
+		//selectQuizView.setCellFactory(sectionCell -> new SectionListViewCellController());
 
-		sections.clear();
-		//selectQuizView.getItems().clear();
+		
+	}
+	
+	public void refresh() {
+		gruppen.clear();
+		setupListView();
 	}
 	
 	
@@ -119,19 +124,22 @@ public class HomeController {
 	@FXML
     private Button refreshButton;
 	
-	// Diese Methode sorgt dafür das die PrimaryStage neu geladen wird damit ListView refreshed wird.
+	// Diese Methode sorgt dafï¿½r das die PrimaryStage neu geladen wird damit ListView refreshed wird.
 	@FXML
 	  void refreshButtonTapped(ActionEvent event) throws IOException {
-
-		Stage stage = (Stage) refreshButton.getScene().getWindow();
-		stage.close();
 		
-		Parent refreshedWindow = FXMLLoader.load(getClass().getResource("homeFXML.fxml"));
+		gruppen.clear();
+		setupListView();
 		
-		Scene scene = new Scene(refreshedWindow, 950, 600);
-		primaryStage.setScene(scene);
-		primaryStage.setResizable(false);
-		primaryStage.show();
+//		Stage stage = (Stage) refreshButton.getScene().getWindow();
+//		stage.close();
+//		
+//		Parent refreshedWindow = FXMLLoader.load(getClass().getResource("homeFXML.fxml"));
+//		
+//		Scene scene = new Scene(refreshedWindow, 950, 600);
+//		primaryStage.setScene(scene);
+//		primaryStage.setResizable(false);
+//		primaryStage.show();
 		
 	  }
 
