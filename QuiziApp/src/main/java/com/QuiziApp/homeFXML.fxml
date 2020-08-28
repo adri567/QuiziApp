@@ -15,11 +15,16 @@
 
 		<VBox prefHeight="555.0" prefWidth="280.0" BorderPane.alignment="CENTER">
 			<children>
-				<ListView fx:id="selectQuizView" fixedCellSize="50" nodeOrientation="LEFT_TO_RIGHT" prefHeight="487.0" prefWidth="280.0">
+				<ListView fx:id="selectSectionView" editable="true" fixedCellSize="50" nodeOrientation="LEFT_TO_RIGHT" prefHeight="367.0" prefWidth="280.0">
 					<VBox.margin>
 						<Insets />
 					</VBox.margin>
 				</ListView>
+            <ListView fx:id="selectQuizView" editable="true" fixedCellSize="30.0" prefHeight="163.0" prefWidth="280.0">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </ListView>
 				<GridPane prefHeight="158.0" prefWidth="100.0">
 					<columnConstraints>
 						<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,12 +36,12 @@
 					<children>
 						<HBox prefHeight="100.0" prefWidth="200.0">
 							<children>
-								<Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonTapped" prefHeight="63.0" prefWidth="140.0" text="Upload Word Dokument">
+								<Button fx:id="createButton" mnemonicParsing="false" onAction="#createButtonTapped" prefHeight="50.0" prefWidth="140.0" text="Upload Word Dokument">
 									<HBox.margin>
 										<Insets right="2.5" />
 									</HBox.margin>
 								</Button>
-								<Button mnemonicParsing="false" prefHeight="58.0" prefWidth="140.0" text="Download Word Vorlage">
+								<Button mnemonicParsing="false" prefHeight="50.0" prefWidth="140.0" text="Download Word Vorlage">
 									<HBox.margin>
 										<Insets left="2.5" />
 									</HBox.margin>
@@ -48,7 +53,7 @@
 						</HBox>
 						<HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
 							<children>
-								<Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonTapped" prefHeight="64.0" prefWidth="280.0" text="Refresh" />
+								<Button fx:id="refreshButton" mnemonicParsing="false" onAction="#refreshButtonTapped" prefHeight="50.0" prefWidth="280.0" text="Refresh" />
 							</children>
 							<GridPane.margin>
 								<Insets top="5.0" />

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.bind.v2.runtime.unmarshaller.Loader;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,13 +37,16 @@ public class HomeController {
 	// Properties
 	Stage primaryStage = new Stage();
 	ArrayList<String> folders = new ArrayList<String>();
-	ObservableList<String> gruppen;
+	ArrayList<String> filesOfFolder = new ArrayList<String>();
+	ObservableList<String> groups;
+	ObservableList<String> files;
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
 	public void initialize() throws JsonParseException, JsonMappingException, IOException {
 		System.out.print("init");
-		setupListView();
+		setupSectionListView();
+		setupQuizListView();
 
 //		selectQuizView.setCellFactory(new Callback<ListView<SectionModel>, ListCell<SectionModel>>() {
 //			@Override
@@ -89,10 +93,10 @@ public class HomeController {
 	}
 
 	@FXML
-	private ListView<String> selectQuizView;
+	private ListView<String> selectSectionView;
 
 	// Diese Methode f�gt der listView die ObservableList "items" hinzu.
-	public void setupListView() {
+	public void setupSectionListView() {
 		
 
 		folders = Utility.sharedInstance.findFoldersInDirectory("Quizis");
@@ -103,23 +107,35 @@ public class HomeController {
 //			sections.add(new SectionModel(folder));
 //		}
 
-		gruppen = FXCollections.observableArrayList(folders);
+		groups = FXCollections.observableArrayList(folders); 
 
-		selectQuizView.setItems(gruppen);
+		selectSectionView.setItems(groups);
 
 		//selectQuizView.setCellFactory(sectionCell -> new SectionListViewCellController());
 
 		
 	}
 	
-	public void refresh() {
-		gruppen.clear();
-		setupListView();
-	}
-	
-	
 	@FXML
-	FXMLLoader Loader = new FXMLLoader();
+	private ListView<String> selectQuizView;
+	
+	public void setupQuizListView() {
+		
+		
+		 selectSectionView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+		    String selectedItem = selectSectionView.getSelectionModel().getSelectedItem();
+		     
+		    filesOfFolder = Utility.sharedInstance.getFilesFromFolder("Quizis/" + selectedItem);
+				
+				
+			files = FXCollections.observableArrayList(filesOfFolder);
+
+			selectQuizView.setItems(files);
+		     
+		    });
+
+	} 
+	
 	
 	@FXML
     private Button refreshButton;
@@ -128,18 +144,8 @@ public class HomeController {
 	@FXML
 	  void refreshButtonTapped(ActionEvent event) throws IOException {
 		
-		gruppen.clear();
-		setupListView();
-		
-//		Stage stage = (Stage) refreshButton.getScene().getWindow();
-//		stage.close();
-//		
-//		Parent refreshedWindow = FXMLLoader.load(getClass().getResource("homeFXML.fxml"));
-//		
-//		Scene scene = new Scene(refreshedWindow, 950, 600);
-//		primaryStage.setScene(scene);
-//		primaryStage.setResizable(false);
-//		primaryStage.show();
+		groups.clear();
+		setupSectionListView();
 		
 	  }
 

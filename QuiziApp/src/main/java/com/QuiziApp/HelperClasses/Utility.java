@@ -28,5 +28,22 @@ public class Utility {
 
 		return foldersInDirectory;
 	}
+	
+	public ArrayList<String> getFilesFromFolder(String directoryPath){
+		
+		File folder = new File(directoryPath);
+		File[] listOFiles = folder.listFiles();
+		ArrayList<String> files = new ArrayList<String>();
+		for (File file : listOFiles) {
+			int endOfFileName = file.getName().lastIndexOf(".");
+			if (endOfFileName > 0) {
+				files.add(file.getName().substring(0, endOfFileName));				
+			}
+			
+			
+		}
+		
+		return files;
+	}
 
 }
