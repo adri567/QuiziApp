@@ -40,8 +40,9 @@ public class HomeController {
 		System.out.print("init");
 		setupSectionListView();
 		setupQuizListView();
-		for (int i = 0; i < 10; i++) {
-			addNode();
+		for (int i = 0; i < 3; i++) {
+			addRightAnswer();
+			addWrongAnswer();
 		}
 
 		
@@ -68,19 +69,6 @@ public class HomeController {
 //			}
 //
 //		}
-	}
-	
-	private void addNode() {
-		FXMLLoader loader = new FXMLLoader();
-        try {
-            Node node  =  loader.load(getClass().getResource("rightAnswerFXML.fxml").openStream());
-            answerVBox.getChildren().add(node);
-            //get the controller 
-            RightAnswerController controller = (RightAnswerController)loader.getController();
-            controller.setContent("This is test"); //set label 
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
 	}
 	
 
@@ -169,6 +157,32 @@ public class HomeController {
     
     @FXML
     private VBox answerVBox;
+    
+	private void addRightAnswer() {
+		FXMLLoader loader = new FXMLLoader();
+        try {
+            Node node  =  loader.load(getClass().getResource("rightAnswerFXML.fxml").openStream());
+            answerVBox.getChildren().add(node);
+            //get the controller 
+            RightAnswerController controller = (RightAnswerController)loader.getController();
+            controller.setContent("This is a test"); //set label 
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+	}
+	
+	private void addWrongAnswer() {
+		FXMLLoader loader = new FXMLLoader();
+        try {
+            Node node  =  loader.load(getClass().getResource("wrongAnswerFXML.fxml").openStream());
+            answerVBox.getChildren().add(node);
+            //get the controller 
+           WrongAnswerController controller = (WrongAnswerController)loader.getController();
+            controller.setContent("This is a wrong test"); //set label 
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+	}
 
 
     @FXML
