@@ -1,22 +1,13 @@
 package com.QuiziApp;
 
-import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Function;
 
-import org.apache.poi.hwpf.sprm.SectionSprmCompressor;
-import org.junit.validator.PublicClassValidator;
 
 import com.QuiziApp.HelperClasses.Utility;
-import com.QuiziApp.Models.QAModel;
-import com.QuiziApp.Models.SectionModel;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.xml.bind.v2.runtime.unmarshaller.Loader;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -27,11 +18,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Callback;
+import javafx.scene.Node;
 
 public class HomeController {
 
@@ -44,11 +36,15 @@ public class HomeController {
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
-	public void initialize() throws JsonParseException, JsonMappingException, IOException {
+	public void initialize() throws JsonParseException, JsonMappingException, IOException, InvocationTargetException {
 		System.out.print("init");
 		setupSectionListView();
 		setupQuizListView();
+		for (int i = 0; i < 10; i++) {
+			addNode();
+		}
 
+		
 //		selectQuizView.setCellFactory(new Callback<ListView<SectionModel>, ListCell<SectionModel>>() {
 //			@Override
 //			public ListCell<SectionModel> call(ListView<SectionModel> sectionListView) {
@@ -73,6 +69,20 @@ public class HomeController {
 //
 //		}
 	}
+	
+	private void addNode() {
+		FXMLLoader loader = new FXMLLoader();
+        try {
+            Node node  =  loader.load(getClass().getResource("rightAnswerFXML.fxml").openStream());
+            answerVBox.getChildren().add(node);
+            //get the controller 
+            RightAnswerController controller = (RightAnswerController)loader.getController();
+            controller.setContent("This is test"); //set label 
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+	}
+	
 
 	@FXML
 	private Button createButton;
@@ -150,7 +160,37 @@ public class HomeController {
 		
 	  }
 	
+
 	@FXML
-    private Label questionLabel;
+    private TextArea questionTextView;
+	
+    @FXML
+    private ScrollPane answerScrollPane;
+    
+    @FXML
+    private VBox answerVBox;
+
+
+    @FXML
+    private Button nextButton;
+
+    @FXML
+    void backButtonTapped(ActionEvent event) {
+
+    }
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    void nextButtonTapped(ActionEvent event) {
+
+    }
+
+ 
+ 
+	
+	
+	
 
 }
