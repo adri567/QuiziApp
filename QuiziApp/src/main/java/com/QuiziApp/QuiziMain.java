@@ -22,6 +22,7 @@ public class QuiziMain extends Application {
 		popupController.primaryStage = primaryStage;
 
 		Scene scene = new Scene(root, 950, 600);
+		//scene.getStylesheets().add(getClass().getResource("answerView.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.setResizable(false);
 		primaryStage.show();

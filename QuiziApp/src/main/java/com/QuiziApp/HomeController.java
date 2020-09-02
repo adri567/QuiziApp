@@ -1,13 +1,17 @@
 package com.QuiziApp;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 
 import com.QuiziApp.HelperClasses.Utility;
+import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -40,35 +44,25 @@ public class HomeController {
 		System.out.print("init");
 		setupSectionListView();
 		setupQuizListView();
-		for (int i = 0; i < 3; i++) {
-			addRightAnswer();
-			addWrongAnswer();
-		}
-
 		
-//		selectQuizView.setCellFactory(new Callback<ListView<SectionModel>, ListCell<SectionModel>>() {
-//			@Override
-//			public ListCell<SectionModel> call(ListView<SectionModel> sectionListView) {
-//				return new SectionListViewCellController();
-//			}
-//		});
+
 
 		// Instanz von dem object "ObjectMapper" erstellen.
-		//var reader = new ObjectMapper();
+		var reader = new ObjectMapper();
 
 		// Konvertiert die json datei in eine ArrayList.
-//		if (!folders.isEmpty()) {
-//			ArrayList<QAModel> model = reader.readValue(new File("Quizis/Chemie/asadasd.json"),
-//					new TypeReference<ArrayList<QAModel>>() {
-//					});
-//
-//			for (QAModel qaModel : model) {
-//				System.out.println(qaModel.getQuestion());
-//				System.out.println(qaModel.getRightAnswers());
-//				System.out.println(qaModel.getWrongAnswers());
-//			}
-//
-//		}
+		if (!folders.isEmpty()) {
+			ArrayList<QAModel> model = reader.readValue(new File("Quizis/Arschlecken69/Neuer Test.json"),
+					new TypeReference<ArrayList<QAModel>>() {
+					});
+
+			for (QAModel qaModel : model) {
+				System.out.println(qaModel.getQuestion());
+				System.out.println(qaModel.getRightAnswers());
+				System.out.println(qaModel.getWrongAnswers());
+			}
+
+		}
 	}
 	
 
@@ -120,7 +114,6 @@ public class HomeController {
 	
 	public void setupQuizListView() {
 		
-		
 		 selectSectionView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 		    String selectedItem = selectSectionView.getSelectionModel().getSelectedItem();
 		     
@@ -134,6 +127,10 @@ public class HomeController {
 		    });
 
 	} 
+	
+	public void getQuizFromListView() {
+		
+	}
 	
 	
 	@FXML
@@ -184,13 +181,18 @@ public class HomeController {
         }
 	}
 
-
+	
     @FXML
     private Button nextButton;
 
     @FXML
     void backButtonTapped(ActionEvent event) {
-
+    	int size = answerVBox.getChildren().size();
+    	questionTextView.setText("");
+    	for (int i = 0; i < size; i++) {
+			answerVBox.getChildren().remove(0);
+		}
+    	
     }
 
     @FXML
@@ -198,7 +200,7 @@ public class HomeController {
 
     @FXML
     void nextButtonTapped(ActionEvent event) {
-
+    	addWrongAnswer();
     }
 
  
