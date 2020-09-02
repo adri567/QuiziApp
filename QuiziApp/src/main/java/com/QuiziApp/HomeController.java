@@ -37,32 +37,26 @@ public class HomeController {
 	ArrayList<String> filesOfFolder = new ArrayList<String>();
 	ObservableList<String> groups;
 	ObservableList<String> files;
+	ArrayList<QAModel> questionPackages = new ArrayList<QAModel>();
+	int countQuestion = 0;
+	
+//	String question = new String();
+//	ArrayList<String> rightAnswerArrayList =  new ArrayList<String>();
+//	ArrayList<String> wrongAnswerArrayList =  new ArrayList<String>();
+	
 	// Methods
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
 	public void initialize() throws JsonParseException, JsonMappingException, IOException, InvocationTargetException {
 		System.out.print("init");
+		
+		backButton.setDisable(true);
+		
 		setupSectionListView();
 		setupQuizListView();
+		getQuizFromListView();
 		
-
-
-		// Instanz von dem object "ObjectMapper" erstellen.
-		var reader = new ObjectMapper();
-
-		// Konvertiert die json datei in eine ArrayList.
-		if (!folders.isEmpty()) {
-			ArrayList<QAModel> model = reader.readValue(new File("Quizis/Arschlecken69/Neuer Test.json"),
-					new TypeReference<ArrayList<QAModel>>() {
-					});
-
-			for (QAModel qaModel : model) {
-				System.out.println(qaModel.getQuestion());
-				System.out.println(qaModel.getRightAnswers());
-				System.out.println(qaModel.getWrongAnswers());
-			}
-
-		}
+		
 	}
 	
 
@@ -112,11 +106,13 @@ public class HomeController {
 	@FXML
 	private ListView<String> selectQuizView;
 	
+	private String folderName;
+	
 	public void setupQuizListView() {
 		
 		 selectSectionView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 		    String selectedItem = selectSectionView.getSelectionModel().getSelectedItem();
-		     
+		    folderName = selectedItem;
 		    filesOfFolder = Utility.sharedInstance.getFilesFromFolder("Quizis/" + selectedItem);
 				
 				
@@ -129,6 +125,43 @@ public class HomeController {
 	} 
 	
 	public void getQuizFromListView() {
+		
+		selectQuizView.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
+		    String selectedItem = selectQuizView.getSelectionModel().getSelectedItem();
+		     
+			// Instanz von dem object "ObjectMapper" erstellen.
+			var reader = new ObjectMapper();
+
+			// Konvertiert die json datei in eine ArrayList.
+			if (!folders.isEmpty()) {
+				ArrayList<QAModel> model;
+				try {
+					model = reader.readValue(new File("Quizis/" + folderName + "/" + selectedItem + ".json"),
+							new TypeReference<ArrayList<QAModel>>() {
+							});
+					
+				questionPackages = model;
+				setQuestionText();
+				addRightAnswer();
+				addWrongAnswer();
+				
+					
+				} catch (JsonParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonMappingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+
+			}
+
+		     
+		    });
+
 		
 	}
 	
@@ -147,7 +180,14 @@ public class HomeController {
 	
 
 	@FXML
-    private TextArea questionTextView;
+    private TextArea questionTextArea;
+	
+	public void setQuestionText() {
+		
+		questionTextArea.setText(questionPackages.get(countQuestion).getQuestion());
+		
+		
+	}
 	
     @FXML
     private ScrollPane answerScrollPane;
@@ -156,29 +196,38 @@ public class HomeController {
     private VBox answerVBox;
     
 	private void addRightAnswer() {
+		ArrayList<String> rightAnswers = questionPackages.get(countQuestion).getRightAnswers();
+		for (String answer : rightAnswers) {
 		FXMLLoader loader = new FXMLLoader();
         try {
             Node node  =  loader.load(getClass().getResource("rightAnswerFXML.fxml").openStream());
             answerVBox.getChildren().add(node);
             //get the controller 
             RightAnswerController controller = (RightAnswerController)loader.getController();
-            controller.setContent("This is a test"); //set label 
+            controller.setContent(answer); //set label 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+		}
 	}
 	
 	private void addWrongAnswer() {
+		ArrayList<String> wrongAnswers = questionPackages.get(countQuestion).getWrongAnswers();
+		for (String answer : wrongAnswers) {
 		FXMLLoader loader = new FXMLLoader();
+		
+			
+		
         try {
             Node node  =  loader.load(getClass().getResource("wrongAnswerFXML.fxml").openStream());
             answerVBox.getChildren().add(node);
             //get the controller 
            WrongAnswerController controller = (WrongAnswerController)loader.getController();
-            controller.setContent("This is a wrong test"); //set label 
+            controller.setContent(answer); //set label 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+		}
 	}
 
 	
@@ -186,23 +235,58 @@ public class HomeController {
     private Button nextButton;
 
     @FXML
-    void backButtonTapped(ActionEvent event) {
-    	int size = answerVBox.getChildren().size();
-    	questionTextView.setText("");
-    	for (int i = 0; i < size; i++) {
-			answerVBox.getChildren().remove(0);
+    void nextButtonTapped(ActionEvent event) {
+    	
+    	
+    	int sizeOfQuestionPackage = questionPackages.size() - 1;
+		countQuestion++;
+
+
+    	
+    	if (countQuestion > 0) {
+    		backButton.setDisable(false);
+    		setQuestionText();
+    		addWrongAnswer();
+    		addRightAnswer();
+    	}
+    	
+    	if (countQuestion == sizeOfQuestionPackage ) {
+			nextButton.setDisable(true);
 		}
     	
     }
 
+    
+
     @FXML
     private Button backButton;
-
+    
     @FXML
-    void nextButtonTapped(ActionEvent event) {
-    	addWrongAnswer();
+    void backButtonTapped(ActionEvent event) {
+    	
+    	int size = answerVBox.getChildren().size();
+    	questionTextArea.setText("");
+    	for (int i = 0; i < size; i++) {
+			answerVBox.getChildren().remove(0);
+		}
+    	
+    	
+    	
+    	if (countQuestion > 0) {
+    		countQuestion--;
+    		setQuestionText();
+    		//addRightAnswer();
+    		//addWrongAnswer();
+    		System.out.print(countQuestion);
+    		nextButton.setDisable(false);
+    		if (countQuestion == 0) {
+    			backButton.setDisable(true);
+    		}
+    	}
+    	
     }
 
+ 
  
  
 	
