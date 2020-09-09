@@ -4,6 +4,7 @@ package com.QuiziApp;
 	import javafx.scene.control.CheckBox;
 	import javafx.scene.control.TextArea;
 	import javafx.scene.layout.HBox;
+import junit.framework.Test;
 
 public class RightAnswerController {
 
@@ -20,6 +21,13 @@ public class RightAnswerController {
 	    public void setContent(String txt) {
 	    	rightAnswerTextArea.setText(txt);
 	    	rightAnswerTextArea.setMinHeight(rightAnswerTextArea.getText().length() / 4);
+	    }
+	    
+	    public boolean getValueOfRightCheckBox() {
+	    	
+	    	System.out.println(rightCheckBox.isSelected());
+	    	
+	    	return rightCheckBox.isSelected();
 	    }
 
 	
