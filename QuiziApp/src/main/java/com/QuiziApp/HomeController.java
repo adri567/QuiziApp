@@ -4,12 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.commons.collections4.map.HashedMap;
+
 import com.QuiziApp.HelperClasses.Utility;
 import com.QuiziApp.Models.QAModel;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.collections.MappingChange.Map;
+import com.sun.javafx.scene.web.Printable;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -20,10 +24,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -36,6 +44,7 @@ public class HomeController {
 	ObservableList<String> groups;
 	ObservableList<String> files;
 	ArrayList<QAModel> questionPackages = new ArrayList<QAModel>();
+	HashedMap<String, ArrayList<String>> answersOfQuestionsHashedMap = new HashedMap<String, ArrayList<String>>();
 	int countQuestion = 0;
 
 	// String question = new String();
@@ -124,7 +133,7 @@ public class HomeController {
 	}
 
 	public void getQuizFromListView() {
-		
+
 		selectQuizView.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 					backButton.setDisable(true);
@@ -132,42 +141,44 @@ public class HomeController {
 					countQuestion = 0;
 					String selectedItem = selectQuizView.getSelectionModel().getSelectedItem();
 
+					// Instanz von dem object "ObjectMapper" erstellen.
+					var reader = new ObjectMapper();
 
-						// Instanz von dem object "ObjectMapper" erstellen.
-						var reader = new ObjectMapper();
+					// Konvertiert die json datei in eine ArrayList.
+					if (!folders.isEmpty()) {
 
-						// Konvertiert die json datei in eine ArrayList.
-						if (!folders.isEmpty()) {
-
-							if (answerVBox.getChildren().size() > 0) {
-								removeAnswersFromVBox();
-							}
-
-							ArrayList<QAModel> model;
-							try {
-								model = reader.readValue(
-										new File("Quizis/" + folderName + "/" + selectedItem + ".json"),
-										new TypeReference<ArrayList<QAModel>>() {
-										});
-
-								questionPackages = model;
-								setQuestionText();
-								addRightAnswer();
-								addWrongAnswer();
-
-							} catch (JsonParseException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (JsonMappingException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
+						if (answerVBox.getChildren().size() > 0) {
+							removeAnswersFromVBox();
 						}
-					
+
+						ArrayList<QAModel> model;
+						try {
+							model = reader.readValue(new File("Quizis/" + folderName + "/" + selectedItem + ".json"),
+									new TypeReference<ArrayList<QAModel>>() {
+									});
+
+							for (QAModel qaModel : model) {
+								answersOfQuestionsHashedMap.put(qaModel.getQuestion(), null);
+							}
+
+							questionPackages = model;
+							
+							setQuestionText();
+							addRightAnswer();
+							addWrongAnswer();
+
+						} catch (JsonParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (JsonMappingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
 
 				});
 
@@ -181,8 +192,15 @@ public class HomeController {
 	@FXML
 	void refreshButtonTapped(ActionEvent event) throws IOException {
 
-		groups.clear();
-		setupSectionListView();
+		
+
+		test();
+		for (String key : answersOfQuestionsHashedMap.keySet()) {
+			System.out.print("Key:" + key);
+			System.out.println("Value: " + answersOfQuestionsHashedMap.get(key));
+		}
+		// groups.clear();
+		// etupSectionListView();
 
 	}
 
@@ -230,6 +248,35 @@ public class HomeController {
 				controller.setContent(answer); // set label
 			} catch (IOException ex) {
 				ex.printStackTrace();
+			}
+		}
+	}
+
+	void test() {
+
+		ArrayList<String> answerStrings = new ArrayList<String>();
+		for (int i = 0; i < answerVBox.getChildren().size(); i++) {
+			Node node = answerVBox.getChildren().get(i);
+			// String answerId = answerVBox.getChildren().get(i).getId();
+			if (node instanceof HBox) {
+				for (Node anchorNode : ((HBox) node).getChildren()) {
+					if (anchorNode instanceof AnchorPane) {
+						for (Node checkNode : ((AnchorPane) anchorNode).getChildren()) {
+							if (checkNode instanceof CheckBox) {
+								Boolean checkBoolean = ((CheckBox) checkNode).isSelected();
+								if (checkBoolean) {
+									for (Node textNode : ((AnchorPane) anchorNode).getChildren()) {
+										if (textNode instanceof TextArea) {
+											answerStrings.add(((TextArea) textNode).getText());
+											
+											answersOfQuestionsHashedMap.put(questionPackages.get(countQuestion).getQuestion(), answerStrings );
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
