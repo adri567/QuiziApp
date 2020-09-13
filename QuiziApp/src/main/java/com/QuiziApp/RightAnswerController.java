@@ -23,12 +23,6 @@ public class RightAnswerController {
 	    	rightAnswerTextArea.setMinHeight(rightAnswerTextArea.getText().length() / 4);
 	    }
 	    
-	    public boolean getValueOfRightCheckBox() {
-	    	
-	    	System.out.println(rightCheckBox.isSelected());
-	    	
-	    	return rightCheckBox.isSelected();
-	    }
 
 	
 

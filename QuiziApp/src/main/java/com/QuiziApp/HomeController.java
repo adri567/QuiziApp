@@ -12,8 +12,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.javafx.collections.MappingChange.Map;
-import com.sun.javafx.scene.web.Printable;
 
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -31,7 +29,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Box;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 
@@ -194,11 +191,11 @@ public class HomeController {
 
 		
 
-		test();
-		for (String key : answersOfQuestionsHashedMap.keySet()) {
-			System.out.print("Key:" + key);
-			System.out.println("Value: " + answersOfQuestionsHashedMap.get(key));
-		}
+		//getCheckBoxValues();
+//		for (String key : answersOfQuestionsHashedMap.keySet()) {
+//			System.out.print("Key:" + key);
+//			System.out.println("Value: " + answersOfQuestionsHashedMap.get(key));
+//		}
 		// groups.clear();
 		// etupSectionListView();
 
@@ -211,6 +208,13 @@ public class HomeController {
 
 		questionTextArea.setText(questionPackages.get(countQuestion).getQuestion());
 
+	}
+	
+	public String getQuestionText() {
+		
+		String question = questionPackages.get(countQuestion).getQuestion();
+		
+		return question;
 	}
 
 	@FXML
@@ -252,12 +256,11 @@ public class HomeController {
 		}
 	}
 
-	void test() {
+	private void getCheckBoxValues() {
 
-		ArrayList<String> answerStrings = new ArrayList<String>();
+		ArrayList<String> answers = new ArrayList<String>();
 		for (int i = 0; i < answerVBox.getChildren().size(); i++) {
 			Node node = answerVBox.getChildren().get(i);
-			// String answerId = answerVBox.getChildren().get(i).getId();
 			if (node instanceof HBox) {
 				for (Node anchorNode : ((HBox) node).getChildren()) {
 					if (anchorNode instanceof AnchorPane) {
@@ -267,9 +270,8 @@ public class HomeController {
 								if (checkBoolean) {
 									for (Node textNode : ((AnchorPane) anchorNode).getChildren()) {
 										if (textNode instanceof TextArea) {
-											answerStrings.add(((TextArea) textNode).getText());
-											
-											answersOfQuestionsHashedMap.put(questionPackages.get(countQuestion).getQuestion(), answerStrings );
+											answers.add(((TextArea) textNode).getText());
+											answersOfQuestionsHashedMap.put(questionPackages.get(countQuestion).getQuestion(), answers );
 										}
 									}
 								}
@@ -280,13 +282,123 @@ public class HomeController {
 			}
 		}
 	}
+	
+	private void setCheckBoxValues() {
+		
+		String question = getQuestionText();
+		ArrayList<String> values = new ArrayList<String>();
+		
+		for (String key : answersOfQuestionsHashedMap.keySet()) {
+			if (key.equals(question)) {
+				values.addAll(answersOfQuestionsHashedMap.get(key));
+			}
+		}
+		int index = 0;
+		
+		for (int i = 0; i < answerVBox.getChildren().size(); i++) {
+			Node node = answerVBox.getChildren().get(i);
+			if (node instanceof HBox) {
+				for (Node anchorNode : ((HBox) node).getChildren()) {
+					if (anchorNode instanceof AnchorPane) {
+						for (Node checkNode : ((AnchorPane) anchorNode).getChildren()) {
+							if (checkNode instanceof CheckBox) {
+								for (Node textNode : ((AnchorPane) anchorNode).getChildren()) {
+									if (textNode instanceof TextArea) {
+										//System.out.print(((TextArea) textNode).getText());
+										for (String value : values) {
+											if (value.equals(((TextArea) textNode).getText())) {
+												((CheckBox) checkNode).setSelected(true);
+												index++;
+											}
+										}
+									}
+//								((CheckBox) checkNode).setSelected(values.get(index));
+//								index++;
+//								System.out.print(((CheckBox) checkNode).isSelected());
+//								System.out.println(answersOfQuestionsHashedMap);
+//								for (String key : answersOfQuestionsHashedMap.keySet()) {
+//									if (key.equals(question)) {
+//										System.out.print(answersOfQuestionsHashedMap.get(key));
+//									}
+								}
+								
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	public void evaluateAnswers(HashedMap<String, ArrayList<String>> answers) {
+		
+		int doneRight = 0;
+		int wrongAnswers = 0;
+		int checkMultipleAnswers = 0;
+		
+		
+		for (QAModel question : questionPackages) {
+			String tempQuestion = question.getQuestion();
+			ArrayList<String> rightAnswers = question.getRightAnswers();
+			
+			for (String key : answersOfQuestionsHashedMap.keySet()) {
+				if (tempQuestion.equals(key)) {
+					
+					
+					if (rightAnswers.size() == answersOfQuestionsHashedMap.get(key).size()) {
+							for (String answersOfQuestionsHashedMapRightAnswers : answersOfQuestionsHashedMap.get(key)) {
+								if (rightAnswers.contains(answersOfQuestionsHashedMapRightAnswers)) {
+									checkMultipleAnswers++;
+								} else {
+									wrongAnswers++;
+									checkMultipleAnswers = 0;
+									break;
+								}
+								
+								if (checkMultipleAnswers == rightAnswers.size()) {
+									doneRight++;
+									checkMultipleAnswers = 0;
+								}
+								
+							}
+					} else {
+						wrongAnswers++;
+						checkMultipleAnswers = 0;
+					}
+				}
+			}
+		}
+		FXMLLoader loader = new FXMLLoader();
+		try {
+			Node node = loader.load(getClass().getResource("resultFXML.fxml").openStream());
+			answerVBox.getChildren().add(node);
+			// get the controller
+			ResultController controller = (ResultController) loader.getController();
+			controller.setContent("Du hast " + doneRight + " Frage(n) richtig beantwortet." + "\n" + "Du hast " + wrongAnswers + " Frage(n) falsch beantwortet.");
+			questionTextArea.setText("Ergebnis: ");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		System.out.println("Du hast " + doneRight + " Frage(n) richtig beantwortet.");
+		System.out.println("Du hast " + wrongAnswers + " Frage(n) falsch beantwortet.");
+	}
 
 	@FXML
 	private Button nextButton;
 
 	@FXML
 	void nextButtonTapped(ActionEvent event) {
+		
+		getCheckBoxValues();
+		
+		if (nextButton.getText().equals("Fertig")) {
+			removeAnswersFromVBox();
+			evaluateAnswers(answersOfQuestionsHashedMap);
+			return;
+		}
 
+		
 		removeAnswersFromVBox();
 
 		int sizeOfQuestionPackage = questionPackages.size() - 1;
@@ -298,11 +410,26 @@ public class HomeController {
 			addWrongAnswer();
 			addRightAnswer();
 		}
-
-		if (countQuestion == sizeOfQuestionPackage) {
-			nextButton.setDisable(true);
+		
+		String tempQuestion = questionPackages.get(countQuestion).getQuestion();
+		for (String key : answersOfQuestionsHashedMap.keySet()) {
+			if (tempQuestion.equals(key)) {
+				if (answersOfQuestionsHashedMap.get(key) != null) {
+					setCheckBoxValues();
+				}
+			}
 		}
+		
+		
+		
+		if (countQuestion == sizeOfQuestionPackage) {
+			nextButton.setText("Fertig");
+		} else {
+			nextButton.setText("weiter");
+		}
+		
 
+		
 	}
 
 	@FXML
@@ -310,6 +437,8 @@ public class HomeController {
 
 	@FXML
 	void backButtonTapped(ActionEvent event) {
+		
+		getCheckBoxValues();
 
 		removeAnswersFromVBox();
 
@@ -318,10 +447,20 @@ public class HomeController {
 			setQuestionText();
 			addRightAnswer();
 			addWrongAnswer();
+
 			System.out.print(countQuestion);
 			nextButton.setDisable(false);
 			if (countQuestion == 0) {
 				backButton.setDisable(true);
+			}
+		}
+		
+		String tempQuestion = questionPackages.get(countQuestion).getQuestion();
+		for (String key : answersOfQuestionsHashedMap.keySet()) {
+			if (tempQuestion.equals(key)) {
+				if (answersOfQuestionsHashedMap.get(key) != null) {
+					setCheckBoxValues();
+				}
 			}
 		}
 

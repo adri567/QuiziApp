@@ -4,10 +4,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox fx:id="resultHBox" prefHeight="241.0" prefWidth="317.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="com.QuiziApp.ResultController">
+<HBox fx:id="resultHBox" prefHeight="241.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.QuiziApp.ResultController">
    <children>
-      <TextArea fx:id="resultTextArea" prefHeight="241.0" prefWidth="323.0" text="afasdasdfasdfasdfasdfhagsdhgfgbnhjvahjsmgdrefs&lt;hvdngkczdcfhsbnmdjfsahdghfkvASBJKHRGSDJv&gt;gmF" wrapText="true">
+      <TextArea fx:id="resultTextArea" editable="false" prefHeight="241.0" prefWidth="590.0" text="&#10;" wrapText="true">
          <font>
             <Font size="22.0" />
          </font>
