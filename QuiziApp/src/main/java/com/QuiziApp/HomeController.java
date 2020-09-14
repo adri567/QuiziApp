@@ -55,7 +55,8 @@ public class HomeController {
 		System.out.print("init");
 
 		backButton.setDisable(true);
-
+		nextButton.setDisable(true);
+		
 		setupSectionListView();
 		setupQuizListView();
 		getQuizFromListView();
@@ -115,7 +116,7 @@ public class HomeController {
 		selectSectionView.getSelectionModel().selectedItemProperty()
 				.addListener((ObservableValue<? extends String> ov, String old_val, String new_val) -> {
 					backButton.setDisable(true);
-					nextButton.setDisable(false);
+					//nextButton.setDisable(false);
 					countQuestion = 0;
 					String selectedItem = selectSectionView.getSelectionModel().getSelectedItem();
 					folderName = selectedItem;
@@ -136,6 +137,10 @@ public class HomeController {
 					backButton.setDisable(true);
 					nextButton.setDisable(false);
 					countQuestion = 0;
+					int sizeOfQuestionPackage = questionPackages.size() - 1;
+					if (countQuestion < sizeOfQuestionPackage) {
+						nextButton.setText("weiter");
+					}
 					String selectedItem = selectQuizView.getSelectionModel().getSelectedItem();
 
 					// Instanz von dem object "ObjectMapper" erstellen.
@@ -159,6 +164,7 @@ public class HomeController {
 							}
 
 							questionPackages = model;
+							
 							
 							setQuestionText();
 							addRightAnswer();
@@ -333,6 +339,8 @@ public class HomeController {
 	
 	public void evaluateAnswers(HashedMap<String, ArrayList<String>> answers) {
 		
+		
+		
 		int doneRight = 0;
 		int wrongAnswers = 0;
 		int checkMultipleAnswers = 0;
@@ -382,6 +390,8 @@ public class HomeController {
 		}
 		System.out.println("Du hast " + doneRight + " Frage(n) richtig beantwortet.");
 		System.out.println("Du hast " + wrongAnswers + " Frage(n) falsch beantwortet.");
+		
+		
 	}
 
 	@FXML
@@ -395,6 +405,7 @@ public class HomeController {
 		if (nextButton.getText().equals("Fertig")) {
 			removeAnswersFromVBox();
 			evaluateAnswers(answersOfQuestionsHashedMap);
+			
 			return;
 		}
 
@@ -424,8 +435,6 @@ public class HomeController {
 		
 		if (countQuestion == sizeOfQuestionPackage) {
 			nextButton.setText("Fertig");
-		} else {
-			nextButton.setText("weiter");
 		}
 		
 
@@ -462,6 +471,11 @@ public class HomeController {
 					setCheckBoxValues();
 				}
 			}
+		}
+		int sizeOfQuestionPackage = questionPackages.size() - 1;
+		
+		if (countQuestion < sizeOfQuestionPackage) {
+			nextButton.setText("weiter");
 		}
 
 	}
