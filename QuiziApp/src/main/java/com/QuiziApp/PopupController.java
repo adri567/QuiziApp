@@ -1,6 +1,7 @@
 package com.QuiziApp;
 
 import java.io.File;
+
 import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -28,9 +29,22 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * 
+ * Diese Klasse ist für das PopUp Fenster zuständig. 
+ * 
+ * 
+ * @author Jannik Walter und Adrian Suthold
+ * @version 1.3
+ * @since 25.08.2020
+ * 
+ *        Copyright © 2020 Jannik Walter und Adrian Suthold. All rights reserved.
+ */
+
 public class PopupController {
 
-	// Properties
+	// MARK: - Properties
 
 	Stage primaryStage = new Stage();
 	ArrayList<QAModel> questions = new ArrayList<QAModel>();
@@ -42,14 +56,89 @@ public class PopupController {
 	boolean closeWindow = true;
 	HomeController homeController = new HomeController();
 
-	// Methods
-
+	
 	public void initialize() {
 		folders = Utility.sharedInstance.findFoldersInDirectory("Quizis/");
 		gruppen = FXCollections.observableArrayList(folders);
 		gruppen.add(0, "Neue Gruppe");
 		chooseSection.setItems(gruppen);
 		chooseSection.setValue("Neue Gruppe");
+	}
+	
+	// MARK: - Methods
+
+	/// Diese Methode schaut nur nach Word Document Files
+	///
+	/// Parameter fileChooser: dieser Parameter beinhaltet die Datei die ausgewählt wurde
+	private void setupFilter(FileChooser fileChooser) {
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Word document", "*.docx"));
+	}
+
+	
+	/// Diese Methode wandelt die Word Datei in eine JSON Datei um und speichert sie zu dem zugehörigen Ordner
+	///
+	/// Parameter pack: hier drin befindet sich die Fragen mit den Antworten
+	private void saveQuestion(ArrayList<QAModel> pack) throws IOException {
+
+		var writer = new ObjectMapper();
+		writer.enable(SerializationFeature.INDENT_OUTPUT);
+
+		folderName = chooseNewSection.getText();
+		fileName = nameQuiz.getText();
+		closeWindow = true;
+		
+		
+		// Überprüft, ob der Ordnername doppelt vorhanden ist.
+		if (chooseNewSection.isDisable() == false) {
+			for (String folder : folders) {
+				if (folderName.equals(folder)) {
+					errorLabel.setVisible(true);
+					errorLabel.setText("Gruppennamen bereits vorhanden");
+					closeWindow = false;
+					return;
+				}
+			}
+		} 
+		
+		// Überprüft, ob ein Gruppenname eingegeben wurde
+		if (chooseNewSection.isDisable() == false && folderName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte ein Gruppennamen wählen");
+			closeWindow = false;
+			return;
+		}
+
+		// Überprüft, ob ein Quizname eingegeben wurde, wenn chooseNewSection disabled ist
+		if (chooseNewSection.isDisable() && fileName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte einen Quiznamen eingeben.");
+			closeWindow = false;
+			return;
+		}
+		
+		// Überprüft, ob ein Quizname eingegeben wurde, wenn chooseNewSection enabledist, der folderName und der fileName empty ist
+		if (chooseNewSection.isDisable() == false && !folderName.isEmpty() && fileName.isEmpty()) {
+			errorLabel.setVisible(true);
+			errorLabel.setText("Bitte einen Quiznamen eingeben.");
+			closeWindow = false;
+			return;
+		}
+		
+		
+		if (closeWindow) {
+			// Wenn es ungleich null ist, wird ein Ordner mit der Datei gespeichert
+			if (valueGruppe != null) {
+				File dir = new File("Quizis/" + folderName);
+				dir.mkdir();
+				File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
+				writer.writeValue(file, pack);
+			} else {
+				File dir = new File("Quizis/" + folderName);
+				dir.mkdir();
+				File file = new File(dir + "/" + fileName + ".json");
+				writer.writeValue(file, pack);
+			}
+		}
 	}
 
 	@FXML
@@ -115,110 +204,6 @@ public class PopupController {
 
 	}
 
-	private void setupFilter(FileChooser fileChooser) {
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Word document", "*.docx"));
-	}
-
-	public void saveQuestion(ArrayList<QAModel> pack) throws IOException {
-
-		var writer = new ObjectMapper();
-		writer.enable(SerializationFeature.INDENT_OUTPUT);
-
-		folderName = chooseNewSection.getText();
-		fileName = nameQuiz.getText();
-		closeWindow = true;
-		
-		
-		// Überprüft, ob der Ordnername doppelt vorhanden ist.
-		if (chooseNewSection.isDisable() == false) {
-			for (String folder : folders) {
-				if (folderName.equals(folder)) {
-					errorLabel.setVisible(true);
-					errorLabel.setText("Gruppennamen bereits vorhanden");
-					closeWindow = false;
-					return;
-				}
-			}
-			
-//			File dir = new File("Quizis/" + folderName);
-//			dir.mkdir();
-//			File file = new File(dir + "/" + fileName + ".json");
-//			writer.writeValue(file, pack);
-		} 
-		
-		// Überprüft, ob ein Gruppenname eingegeben wurde
-		if (chooseNewSection.isDisable() == false && folderName.isEmpty()) {
-			errorLabel.setVisible(true);
-			errorLabel.setText("Bitte ein Gruppennamen wählen");
-			closeWindow = false;
-			return;
-		}
-
-		// Überprüft, ob ein Quizname eingegeben wurde, wenn chooseNewSection disabled ist
-		if (chooseNewSection.isDisable() && fileName.isEmpty()) {
-			errorLabel.setVisible(true);
-			errorLabel.setText("Bitte einen Quiznamen eingeben.");
-			closeWindow = false;
-			return;
-		}
-		
-		// Überprüft, ob ein Quizname eingegeben wurde, wenn chooseNewSection enabledist, der folderName und der fileName empty ist
-		if (chooseNewSection.isDisable() == false && !folderName.isEmpty() && fileName.isEmpty()) {
-			errorLabel.setVisible(true);
-			errorLabel.setText("Bitte einen Quiznamen eingeben.");
-			closeWindow = false;
-			return;
-		}
-		
-		if (closeWindow) {
-			if (valueGruppe != null) {
-				File dir = new File("Quizis/" + folderName);
-				dir.mkdir();
-				File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
-				writer.writeValue(file, pack);
-			} else {
-				File dir = new File("Quizis/" + folderName);
-				dir.mkdir();
-				File file = new File(dir + "/" + fileName + ".json");
-				writer.writeValue(file, pack);
-			}
-		}
-
-//		if (folderName.isEmpty()) {
-//			errorLabel.setVisible(true);
-//			errorLabel.setText("Bitte ein Gruppennamen wählen");
-//			closeWindow = false;
-//		}
-//
-//		if (fileName.isEmpty()) {
-//			errorLabel.setVisible(true);
-//			errorLabel.setText("Bitte einen Quiznamen eingeben.");
-//			closeWindow = false;
-//		}
-//
-//		// Hier wird �berpr�ft ob der eigegebene Ordner Name schon vorhanden ist.
-//		// Falls dies der Fall ist wird eine Fehlermeldung im Popup Fenster erscheinen.
-//		if (!folderName.isEmpty()) {
-//
-//			for (String folder : folders) {
-//				if (folderName.equals(folder)) {
-//					errorLabel.setVisible(true);
-//					errorLabel.setText("Gruppennamen bereits vorhanden");
-//					closeWindow = false;
-//				}
-//			}
-//
-//			File dir = new File("Quizis/" + folderName);
-//			dir.mkdir();
-//			File file = new File(dir + "/" + fileName + ".json");
-//			writer.writeValue(file, pack);
-//		} else if (!fileName.isEmpty()) {
-//			File file = new File("Quizis/" + valueGruppe + "/" + fileName + ".json");
-//			writer.writeValue(file, pack);
-//		}
-
-	}
-
 	@FXML
 	private Button createQuizi;
 
@@ -234,14 +219,6 @@ public class PopupController {
 		if (closeWindow) {
 			Stage stage = (Stage) createQuizi.getScene().getWindow();
 			stage.close();
-
-//			Thread.sleep(1000);
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource("homeFXML.fxml"));
-//			HomeController controller = loader.getController();
-//			controller.refresh();
-			
-			
-			
 		}
 	}
 

@@ -20,7 +20,7 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 public class ConvertWordDocToText {
 
-	// Variablen
+	// MARK: - Properties
 	private XWPFDocument wordDocx;
 	private XWPFWordExtractor wordDocumentText;
 	private String wordText;

@@ -6,6 +6,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * Diese Klasse ruft die HomeController Klasse auf.
+ * 
+ * 
+ * @author Jannik Walter
+ * @version 2.5
+ * @since 20.08.2020
+ * 
+ *        Copyright © 2020 Jannik Walter. All rights reserved.
+ */
+
 public class QuiziMain extends Application {
 
 	// Instanz der Klasse ControllerFXML

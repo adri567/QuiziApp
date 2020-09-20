@@ -11,7 +11,7 @@ import com.QuiziApp.Models.QAModel;
  * nutzen.
  * 
  * @author Adrian Suthold
- * @version 1.0
+ * @version 3.1
  * @since 08.06.2020
  * 
  *        Copyright © 2020 Adrian Suthold. All rights reserved.
