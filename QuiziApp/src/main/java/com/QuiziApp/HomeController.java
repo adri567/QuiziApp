@@ -50,7 +50,6 @@ public class HomeController {
 			System.out.println(qaModel.getRightAnswers());
 			System.out.println(qaModel.getWrongAnswers());
 		}
-		
 	}
 	
 
