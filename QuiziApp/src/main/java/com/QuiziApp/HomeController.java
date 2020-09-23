@@ -512,8 +512,6 @@ public class HomeController {
 				// Wenn die Antworten einer Frage != null sind, wird count Question um ein hochgezählt. Ansonsten wird das Programm abgebrochen
 				if (answersOfQuestionsHashedMap.get(key) != null) {
 					countQuestions++;
-				} else { 
-					return;
 				}
 			}
 			
