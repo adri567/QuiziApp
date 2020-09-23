@@ -530,6 +530,7 @@ public class HomeController {
 		}
 
 		
+		
 		removeAnswersFromVBox();
 
 		int sizeOfQuestionPackage = questionPackages.size() - 1;
