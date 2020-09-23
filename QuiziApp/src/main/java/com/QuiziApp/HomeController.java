@@ -58,6 +58,7 @@ public class HomeController {
 	HashedMap<String, ArrayList<String>> answersOfQuestionsHashedMap = new HashedMap<String, ArrayList<String>>();
 	private int countQuestion = 0;										// Diese Variable zählt die Frage bei welcher wir gerade sind
 	private String folderName;
+	private Boolean submissionOfQuestions = false;
 
 
 	// Diese Methode wird bei jedem Programmstart als erstes aufgerufen
@@ -498,11 +499,34 @@ public class HomeController {
 		// bekommt immer die CheckBox Values von der vorherigen Frage
 		getCheckBoxValues();
 		
+		
 		// Wenn der Text des Buttons auf Fertig ist, dann wird der folgende Anweisungsblock durchgeführt
 		if (nextButton.getText().equals("Fertig")) {
-			removeAnswersFromVBox();
-			evaluateAnswers(answersOfQuestionsHashedMap);
-			return;
+			
+			int sizeOfAnswerdQuestions = answersOfQuestionsHashedMap.keySet().size();
+			int countQuestions = 0;
+			
+			// Hier wird überprüft ob auch jede Frage beantwortet wurde
+			for (String key : answersOfQuestionsHashedMap.keySet()) {
+				System.out.print(key);
+				// Wenn die Antworten einer Frage != null sind, wird count Question um ein hochgezählt. Ansonsten wird das Programm abgebrochen
+				if (answersOfQuestionsHashedMap.get(key) != null) {
+					countQuestions++;
+				} else { 
+					return;
+				}
+			}
+			
+				// Hier wird überprüft, ob die Variablen gleich sind. Erst wenn beide gleich sind bekommen wir ein Ergbnis.
+				if (sizeOfAnswerdQuestions == countQuestions) {
+					nextButton.setDisable(false);
+					removeAnswersFromVBox();
+					evaluateAnswers(answersOfQuestionsHashedMap);
+					return;
+				} else {
+					nextButton.setDisable(true);
+					return;
+				}
 		}
 
 		
