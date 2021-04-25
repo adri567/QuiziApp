@@ -1,0 +1,29 @@
+[ {
+  "question" : "Für den Quicksort-Algorithmus gelten folgende Aussagen: ",
+  "rightAnswers" : [ "Das Pivotelement kann seine Position verändern. ", "Das Vergleichen der Schlüssel mit dem Pivotelement erfolgt von außen nach innen. " ],
+  "wrongAnswers" : [ "Als Pivotelement muss das Element in der Mittel der Schlüsselfolge gewählt werden. ", "Das Vergleichen der Schlüssel mit dem Pivotelement erfolgt von links nach rechts. " ]
+}, {
+  "question" : "Die folgenden Sortierverfahren profitieren von einer Vorsortierung der Schlüssel: ",
+  "rightAnswers" : [ "Bubble Sort ", "Insertion Sort " ],
+  "wrongAnswers" : [ "Selection Sort " ]
+}, {
+  "question" : "Die Vorverarbeitung beim Boyer-Moore-Algorithmus ist notwendig für ...  ",
+  "rightAnswers" : [ "das Muster m " ],
+  "wrongAnswers" : [ "den Text t " ]
+}, {
+  "question" : "Die Laufzeitkomplexität für Hash-Verfahren ist ",
+  "rightAnswers" : [ "const. bzw. von der Schlüssellänge abhängig. " ],
+  "wrongAnswers" : [ "log n ", "n ", "n^2 " ]
+}, {
+  "question" : "Geordnete Schlüssel sind die Voraussetzung für ",
+  "rightAnswers" : [ "binäres Suchen ", "Interpolationssuche " ],
+  "wrongAnswers" : [ "sequenzielles Suchen ", "Hashwert-Verfahren " ]
+}, {
+  "question" : "Die Speicherkomplexität von Algorithmen verhält sich im Allgemeinen ",
+  "rightAnswers" : [ "unabhängig zur bzw. von der Laufzeitkomplexität " ],
+  "wrongAnswers" : [ "genauso wie die Laufzeitkomplexität ", "reziprok zur Laufzeitkomplexität " ]
+}, {
+  "question" : "Beim Aufwand von Algorithmen gibt man sinnvollerweise an: ",
+  "rightAnswers" : [ "den mittleren und den größten Aufwand " ],
+  "wrongAnswers" : [ "den kleinsten und den größten Aufwand ", "den kleinsten und den mittleren Aufwand " ]
+} ]

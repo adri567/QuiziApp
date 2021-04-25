@@ -473,8 +473,9 @@ public class HomeController {
 //			System.out.print("Key:" + key);
 //			System.out.println("Value: " + answersOfQuestionsHashedMap.get(key));
 //		}
-		// groups.clear();
-		// etupSectionListView();
+		
+		 groups.clear();
+		 setupSectionListView();
 
 	}
 
